@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.hg-activeButton {
+  @apply brightness-75;
+}
+
 /* RAINBOW */
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-red {
@@ -26,12 +30,12 @@
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-yellow-orange {
   background: hsl(60, 100%, 50%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-yellow {
   background: hsl(75, 100%, 50%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-lime-green {
@@ -61,12 +65,12 @@
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-spring-green-cyan {
   background: hsl(165, 100%, 50%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-cyan {
   background: hsl(180, 100%, 50%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-cyan-sky-blue {
@@ -167,17 +171,17 @@
 
 .simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-lime-green {
   background: hsl(100, 90%, 60%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-yellow-green {
   background: hsl(80, 90%, 60%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-pale-yellow {
   background: hsl(60, 90%, 60%);
-  color: white;
+  color: black;
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-yellow-orange {
