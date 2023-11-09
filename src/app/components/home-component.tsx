@@ -49,6 +49,7 @@ export default function HomeComponent(props: HomeComponentProps) {
   const [canvasWidth, setCanvasWidth] = useState(600);
   const [canvasHeight, setCanvasHeight] = useState(400);
   const [cursorSize, setCursorSize] = useState(10);
+  const [opacity, setOpacity] = useState(100);
   const [hideCursor, setHideCursor] = useState(false);
   const [loadImage, setLoadImage] = useState(false);
   const [clearing, setClearing] = useState(false);
@@ -73,38 +74,36 @@ export default function HomeComponent(props: HomeComponentProps) {
    */
   const handleKeyDown = (event: Event) => {
     if (document) {
-      const cursorSizeInput = document.getElementById("cursorSizeInput");
-      if (cursorSizeInput) {
-        // we don't want to filter the keys if the <input> for the cursor size is focused
-        const cursorSizeInputElement = cursorSizeInput as HTMLInputElement;
-        if (!(document.activeElement === cursorSizeInputElement)) {
-          // @ts-ignore
-          let key: string = event.key;
+      const inputFields = document.getElementsByTagName('input');
+      const isInputFocused = Array.from(inputFields).some((element) => document.activeElement === element);
+      // we don't want to filter the keys if the <input> for the cursor size is focused
+      if (!isInputFocused) {
+        // @ts-ignore
+        let key: string = event.key;
 
-          // replace the key if it is an arrow key
-          if (key === "ArrowLeft") {
-            key = "←";
-          } else if (key === "ArrowRight") {
-            key = "→";
-          } else if (key === "ArrowDown") {
-            key = "↓";
-          } else if (key === "ArrowUp") {
-            key = "↑";
-          }
+        // replace the key if it is an arrow key
+        if (key === "ArrowLeft") {
+          key = "←";
+        } else if (key === "ArrowRight") {
+          key = "→";
+        } else if (key === "ArrowDown") {
+          key = "↓";
+        } else if (key === "ArrowUp") {
+          key = "↑";
+        }
 
-          // reject special chars
-          if (!validInputKey.includes(key)) {
-            event.preventDefault();
-          } else {
-            // normalize to lower case
-            key = key.toLowerCase();
-            const button = document.querySelector(`[data-skbtn="${key}"]`);
-            if (button) {
-              button.classList.add('hg-activeButton');
-              setTimeout(() => { button.classList.remove('hg-activeButton') }, 100);
-            }
-            addKeyToInput(key);
+        // reject special chars
+        if (!validInputKey.includes(key)) {
+          event.preventDefault();
+        } else {
+          // normalize to lower case
+          key = key.toLowerCase();
+          const button = document.querySelector(`[data-skbtn="${key}"]`);
+          if (button) {
+            button.classList.add('hg-activeButton');
+            setTimeout(() => { button.classList.remove('hg-activeButton') }, 100);
           }
+          addKeyToInput(key);
         }
       }
     }
@@ -190,6 +189,15 @@ export default function HomeComponent(props: HomeComponentProps) {
   const onCursorInputChange = (value: string) => {
     const valueNumber = Number(value);
     setCursorSize(valueNumber);
+  }
+
+  /**
+   * Update the opacity
+   * @param value the opacity value
+   */
+  const onOpacityInputChange = (value: string) => {
+    const valueNumber = Number(value);
+    setOpacity(valueNumber);
   }
 
   /**
@@ -282,7 +290,7 @@ export default function HomeComponent(props: HomeComponentProps) {
   return (
     <div className="flex flex-col w-full h-full items-center gap-5">
       <div className="flex flex-row items-end gap-5">
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Keyboard layout">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Keyboard layout">
           <label className="label">
             <span className="label-text">Language</span>
           </label>
@@ -290,7 +298,7 @@ export default function HomeComponent(props: HomeComponentProps) {
             {layoutOptions.map((opt: Option) => <option value={opt.value} key={`layout-${opt.name}`}>{opt.name}</option>)}
           </select>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Color palette to apply to the keyboard">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Color palette to apply to the keyboard">
           <label className="label">
             <span className="label-text">Palette</span>
           </label>
@@ -298,7 +306,7 @@ export default function HomeComponent(props: HomeComponentProps) {
             {paletteOptions.map((opt: Option) => <option value={opt.value} key={`palette-${opt.name}`}>{opt.name}</option>)}
           </select>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Canvas size in pixels (width x height)">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Canvas size in pixels (width x height)">
           <label className="label">
             <span className="label-text">Canvas size</span>
           </label>
@@ -306,25 +314,31 @@ export default function HomeComponent(props: HomeComponentProps) {
             {canvasSizeOptions.map((opt: Option) => <option value={opt.value} key={`canvasSize-${opt.name}`}>{opt.name}</option>)}
           </select>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Cursor size in pixels (the cursor is a square, the size is the length of the square side)">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Dot size in pixels (the cursor and the dot are squares, the size is the length of the square side, min: 1, max: 100)">
           <label className="label">
-            <span className="label-text">Cursor size</span>
+            <span className="label-text">Dot size</span>
           </label>
           <input id="cursorSizeInput" className="input input-bordered" type="number" min="1" max="100" value={cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Save the image on your device">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Dot opacity (min: 1, max: 100)">
+          <label className="label">
+            <span className="label-text">Dot Opacity</span>
+          </label>
+          <input id="cursorSizeInput" className="input input-bordered" type="number" min="1" max="100" value={opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
+        </div>
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Save the image on your device">
           <button className="btn btn-primary" onClick={() => saveImage()}>Save Image</button>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Save the input on your device as a json file">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Save the input on your device as a json file">
           <button className="btn btn-secondary" onClick={() => saveTypePainterData()}>Save Input</button>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Load a json file from you device to use as canvas base">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Load a json file from you device to use as canvas base">
           <label className="label">
             <span className="label-text">Load Input</span>
           </label>
           <input className="file-input file-input-bordered file-input-info" type="file" accept="application/json" onChange={loadTypePainterData}></input>
         </div>
-        <div className="form-control w-full max-w-xs tooltip" data-tip="Clear the input and the canvas">
+        <div className="form-control w-full max-w-xs tooltip tooltip-bottom" data-tip="Clear the input and the canvas">
           <button className="btn btn-error" onClick={() => clear()} >Clear</button>
         </div>
       </div>
@@ -339,7 +353,8 @@ export default function HomeComponent(props: HomeComponentProps) {
         clearing={clearing}
         setClearing={setClearing}
         dots={dots}
-        setDots={setDots} />
+        setDots={setDots}
+        opacity={opacity} />
       <div className="flex flex-col place-items-center w-2/5">
         <Keyboard
           keyboardRef={r => (keyboard.current = r)}

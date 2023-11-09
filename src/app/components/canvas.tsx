@@ -15,7 +15,8 @@ type CanvasProps = {
   clearing: boolean, // true if we have to clear the canvas
   setClearing: (value: boolean) => void, // callback to signal the parent that the canvas has been cleared
   dots: Dot[], // the dots to draw, also serves as bitmap-like array
-  setDots: (dots: Dot[]) => void // callback to update the bitmap
+  setDots: (dots: Dot[]) => void, // callback to update the bitmap
+  opacity: number, // dot opacity
 }
 
 // these variables must be outside of the component, don't know why react-p5 does not update the values when it is inside the component
@@ -42,7 +43,7 @@ export default function Canvas(props: CanvasProps) {
     if (props.loadImage) {
       handleLoadImage(props.dots, props.input);
     }
-  }, [props.loadImage, props.dots])
+  }, [props.loadImage, props.dots]);
 
   /**
    * Loads the dots and move the cursor
@@ -107,8 +108,15 @@ export default function Canvas(props: CanvasProps) {
     if (document) {
       let button = document.querySelector(`[data-skbtn="${key}"]`);
       if (button) {
-        const css = getComputedStyle(button);
-        return css.backgroundColor;
+        // get the background rolor, returned as rgb() string
+        const bgColor = getComputedStyle(button).backgroundColor;
+        const matchedColors = bgColor.match(/\d+/g);
+        if (matchedColors && matchedColors.length === 3) {
+          // convert to rgba() string using opacity
+          const computedOpacity = props.opacity / 100;
+          const rgbaColor = `rgba(${matchedColors[0]}, ${matchedColors[1]}, ${matchedColors[2]}, ${computedOpacity})`;
+          return rgbaColor;
+        }
       }
     }
     return '';
