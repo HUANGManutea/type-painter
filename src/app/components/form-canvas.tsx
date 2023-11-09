@@ -207,59 +207,64 @@ export default function FormCanvas(props: FormCanvasProps) {
         matches
           ?
           // desktop layout
-          <div className="flex flex-row items-end gap-5">
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Keyboard layout">
-              <label className="label">
-                <span className="label-text">Language</span>
-              </label>
-              <select className="select select-bordered w-full" value={props.layoutName} onChange={(e) => updateLayout(e.target.value)}>
-                {layoutOptions.map((opt: Option) => <option value={opt.value} key={`layout-${opt.name}`}>{opt.name}</option>)}
-              </select>
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex flex-row items-end gap-5">
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Keyboard layout">
+                <label className="label">
+                  <span className="label-text">Language</span>
+                </label>
+                <select className="select select-bordered w-full" value={props.layoutName} onChange={(e) => updateLayout(e.target.value)}>
+                  {layoutOptions.map((opt: Option) => <option value={opt.value} key={`layout-${opt.name}`}>{opt.name}</option>)}
+                </select>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Color palette to apply to the keyboard">
+                <label className="label">
+                  <span className="label-text">Palette</span>
+                </label>
+                <select className="select select-bordered w-full" value={props.paletteName} onChange={(e) => updatePalette(e.target.value)}>
+                  {paletteOptions.map((opt: Option) => <option value={opt.value} key={`palette-${opt.name}`}>{opt.name}</option>)}
+                </select>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Canvas size in pixels (width x height), warning: changing the canvas size means resetting the canvas !">
+                <label className="label">
+                  <span className="label-text">Canvas size</span>
+                </label>
+                <select className="select select-bordered w-full" value={props.canvasSize} onChange={(e) => updateCanvasSize(e.target.value)}>
+                  {canvasSizeOptions.map((opt: Option) => <option value={opt.value} key={`canvasSize-${opt.name}`}>{opt.name}</option>)}
+                </select>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Dot size in pixels (the cursor and the dot are squares, the size is the length of the square side, min: 1, max: 100)">
+                <label className="label">
+                  <span className="label-text">Dot size</span>
+                </label>
+                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Dot opacity (min: 1, max: 100)">
+                <label className="label">
+                  <span className="label-text">Dot Opacity</span>
+                </label>
+                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
+              </div>
             </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Color palette to apply to the keyboard">
-              <label className="label">
-                <span className="label-text">Palette</span>
-              </label>
-              <select className="select select-bordered w-full" value={props.paletteName} onChange={(e) => updatePalette(e.target.value)}>
-                {paletteOptions.map((opt: Option) => <option value={opt.value} key={`palette-${opt.name}`}>{opt.name}</option>)}
-              </select>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Canvas size in pixels (width x height), warning: changing the canvas size means resetting the canvas !">
-              <label className="label">
-                <span className="label-text">Canvas size</span>
-              </label>
-              <select className="select select-bordered w-full" value={props.canvasSize} onChange={(e) => updateCanvasSize(e.target.value)}>
-                {canvasSizeOptions.map((opt: Option) => <option value={opt.value} key={`canvasSize-${opt.name}`}>{opt.name}</option>)}
-              </select>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Dot size in pixels (the cursor and the dot are squares, the size is the length of the square side, min: 1, max: 100)">
-              <label className="label">
-                <span className="label-text">Dot size</span>
-              </label>
-              <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Dot opacity (min: 1, max: 100)">
-              <label className="label">
-                <span className="label-text">Dot Opacity</span>
-              </label>
-              <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Save the image on your device">
-              <button className="btn btn-primary w-full" onClick={() => saveImage()}>Save Image</button>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Save the input on your device as a json file">
-              <button className="btn btn-secondary w-full" onClick={() => saveTypePainterData()}>Save Input</button>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Load a json file from you device to use as canvas base">
-              <label className="label">
-                <span className="label-text">Load Input</span>
-              </label>
-              <input className="file-input file-input-bordered file-input-info w-full" type="file" accept="application/json" onChange={loadTypePainterData}></input>
-            </div>
-            <div className="form-control w-full max-w-xs tooltip" data-tip="Clear the input and the canvas">
-              <button className="btn btn-error w-full" onClick={() => clear()} >Clear</button>
+            <div className="flex flex-row items-end gap-5">
+              <div className="form-control max-w-xs tooltip" data-tip="Save the image on your device">
+                <button className="btn btn-primary" onClick={() => saveImage()}>Save Image</button>
+              </div>
+              <div className="form-control max-w-xs tooltip" data-tip="Save the input on your device as a json file">
+                <button className="btn btn-secondary" onClick={() => saveTypePainterData()}>Save Input</button>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Load a json file from you device to use as canvas base">
+                <label className="label">
+                  <span className="label-text">Load Input</span>
+                </label>
+                <input className="file-input file-input-bordered file-input-info w-full" type="file" accept="application/json" onChange={loadTypePainterData}></input>
+              </div>
+              <div className="form-control max-w-xs tooltip" data-tip="Clear the input and the canvas">
+                <button className="btn btn-error" onClick={() => clear()} >Clear</button>
+              </div>
             </div>
           </div>
+
 
           :
           // mobile layout
