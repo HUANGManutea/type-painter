@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-10">
+    <main className="flex min-h-screen flex-col p-20">
       <div className='flex flex-col'>
         <h1>Type Painter</h1>
       </div>

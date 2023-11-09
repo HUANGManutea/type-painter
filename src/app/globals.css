@@ -10,6 +10,14 @@ a {
   @apply underline text-primary;
 }
 
+h1 {
+  @apply text-2xl;
+}
+
+h2 {
+  @apply text-xl;
+}
+
 /* RAINBOW */
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-1 {

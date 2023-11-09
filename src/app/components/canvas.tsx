@@ -1,7 +1,7 @@
 'use client';
 import Sketch from "react-p5";
 import p5Types from "p5";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Dot } from "../lib/models";
 
 type CanvasProps = {
@@ -27,6 +27,7 @@ let cursorY = 0;
 // color of the current dot
 let dotColor = '';
 export default function Canvas(props: CanvasProps) {
+  const [p5, setP5] = useState<p5Types>();
 
   // trigger when input or clear has changed
   useEffect(() => {
@@ -44,6 +45,10 @@ export default function Canvas(props: CanvasProps) {
       handleLoadImage(props.dots, props.input);
     }
   }, [props.loadImage, props.dots]);
+
+  useEffect(() => {
+    p5?.resizeCanvas(props.width, props.height);
+  }, [props.width, props.height])
 
   /**
    * Loads the dots and move the cursor
@@ -128,6 +133,7 @@ export default function Canvas(props: CanvasProps) {
    * @param canvasParentRef the parent
    */
   const setup = (p5: p5Types, canvasParentRef: Element) => {
+    setP5(p5);
     p5.createCanvas(props.width, props.height).parent(canvasParentRef);
   };
 
