@@ -4,8 +4,8 @@ import { useRef, useState, useEffect, ChangeEvent } from "react";
 import Keyboard, { KeyboardButtonTheme, KeyboardLayoutObject } from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import dynamic from 'next/dynamic';
-import { layoutButtonThemes } from "./layout-button-themes";
-import { Dot, Option, TypePainterFileData } from "../lib/models";
+import { inlineLayouts, layoutButtonThemes } from "./layout-button-themes";
+import { Dot, InlineLayout, Option, TypePainterFileData } from "../lib/models";
 
 // Must use a dynamic import because of react-p5
 const Canvas = dynamic(
@@ -43,8 +43,8 @@ export default function HomeComponent(props: HomeComponentProps) {
   // when a key is pressed, it is added to the input
   const [input, setInput] = useState("");
   const [layoutName, setLayoutName] = useState("fr");
-  const [paletteName, setPaletteName] = useState("rainbow");
-  const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['fr']['rainbow']);
+  const [paletteName, setPaletteName] = useState("original");
+  const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['fr']['original']);
   const [canvasSize, setCanvasSize] = useState("600x400");
   const [canvasWidth, setCanvasWidth] = useState(600);
   const [canvasHeight, setCanvasHeight] = useState(400);
@@ -136,6 +136,10 @@ export default function HomeComponent(props: HomeComponentProps) {
     {
       name: "cool-warm",
       value: "cool-warm"
+    },
+    {
+      name: "original",
+      value: "original"
     }
   ]
 

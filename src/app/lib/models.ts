@@ -26,3 +26,10 @@ export interface TypePainterFileData {
   input: string, // the input string
   dots: Dot[] // the dots
 }
+
+/**
+ * Associate a layout name with an inline keyboard layout
+ */
+export interface InlineLayout {
+  [key: string]: string
+}

@@ -12,263 +12,395 @@ a {
 
 /* RAINBOW */
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-1 {
   background: hsl(0, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-red-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-2 {
   background: hsl(15, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-orange-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-3 {
   background: hsl(30, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-4 {
   background: hsl(45, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-yellow-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-5 {
   background: hsl(60, 100%, 50%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-yellow {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-6 {
   background: hsl(75, 100%, 50%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-lime-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-7 {
   background: hsl(90, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-lime-green-yellow {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-8 {
   background: hsl(105, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-9 {
   background: hsl(120, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-green-spring {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-10 {
   background: hsl(135, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-spring-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-11 {
   background: hsl(150, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-spring-green-cyan {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-12 {
   background: hsl(165, 100%, 50%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-cyan {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-13 {
   background: hsl(180, 100%, 50%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-cyan-sky-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-14 {
   background: hsl(195, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-sky-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-15 {
   background: hsl(210, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-16 {
   background: hsl(225, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-blue-indigo {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-17 {
   background: hsl(240, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-indigo {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-18 {
   background: hsl(255, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-violet {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-19 {
   background: hsl(270, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-violet-magenta {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-20 {
   background: hsl(285, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-magenta {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-21 {
   background: hsl(300, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-magenta-pink {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-22 {
   background: hsl(315, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-pink {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-23 {
   background: hsl(330, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-pink-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-24 {
   background: hsl(345, 100%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-black {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-25 {
   background: hsl(0, 0%, 0%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-white {
+.simple-keyboard.hg-layout-default .hg-button.hg-rainbow-26 {
   background: hsl(0, 0%, 100%);
   color: black;
 }
 
 /* COOL WARM */
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-light-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-1 {
   background: hsl(220, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-cerulean {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-2 {
   background: hsl(200, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-sky-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-3 {
   background: hsl(180, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-aquamarine {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-4 {
   background: hsl(160, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-mint-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-5 {
   background: hsl(140, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-light-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-6 {
   background: hsl(120, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-lime-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-7 {
   background: hsl(100, 90%, 60%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-yellow-green {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-8 {
   background: hsl(80, 90%, 60%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-pale-yellow {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-9 {
   background: hsl(60, 90%, 60%);
   color: black;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-yellow-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-10 {
   background: hsl(40, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-11 {
   background: hsl(30, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-burnt-orange {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-12 {
   background: hsl(20, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-orange-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-13 {
   background: hsl(10, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-14 {
   background: hsl(360, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-red-violet {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-15 {
   background: hsl(340, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-violet-red {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-16 {
   background: hsl(320, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-magenta {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-17 {
   background: hsl(300, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-orchid {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-18 {
   background: hsl(280, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-lavender {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-19 {
   background: hsl(260, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-blue-violet {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-20 {
   background: hsl(240, 90%, 60%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-slate-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-21 {
   background: hsl(220, 70%, 55%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-powder-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-22 {
   background: hsl(200, 50%, 50%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-light-slate {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-23 {
   background: hsl(180, 30%, 45%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-pastel-blue {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-24 {
   background: hsl(160, 15%, 40%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-dark-gray {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-25 {
   background: hsl(0, 0%, 20%);
   color: white;
 }
 
-.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-light-gray {
+.simple-keyboard.hg-layout-default .hg-button.hg-cool-warm-26 {
   background: hsl(0, 0%, 90%);
   color: black;
+}
+
+/* ORIGINAL */
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-1 {
+  background: hsl(328, 43%, 45%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-2 {
+  background: hsl(6, 57%, 52%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-3 {
+  background: hsl(25, 27%, 28%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-4 {
+  background: hsl(223, 22%, 38%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-5 {
+  background: hsl(250, 24%, 40%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-6 {
+  background: hsl(253, 36%, 28%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-7 {
+  background: hsl(1, 78%, 65%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-8 {
+  background: hsl(337, 98%, 74%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-9 {
+  background: hsl(30, 77%, 61%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-10 {
+  background: hsl(37, 84%, 69%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-11 {
+  background: hsl(39, 88%, 76%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-12 {
+  background: hsl(65, 93%, 74%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-13 {
+  background: hsl(71, 62%, 66%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-14 {
+  background: hsl(135, 63%, 76%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-15 {
+  background: hsl(154, 58%, 53%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-16 {
+  background: hsl(177, 47%, 52%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-17 {
+  background: hsl(195, 58%, 68%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-18 {
+  background: hsl(196, 45%, 58%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-19 {
+  background: hsl(204, 43%, 49%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-20 {
+  background: hsl(221, 23%, 53%);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-21 {
+  background: hsl(342, 81%, 88%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-22 {
+  background: hsl(20, 72%, 87%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-23 {
+  background: hsl(57, 90%, 65%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-24 {
+  background: hsl(166, 42%, 78%);
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-25 {
+  background: white;
+  color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-original-26 {
+  background: black;
+  color: white;
 }
