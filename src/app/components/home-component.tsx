@@ -1,12 +1,13 @@
 'use client';
 
-import { useRef, useState, KeyboardEvent, useEffect, ChangeEvent } from "react";
+import { useRef, useState, useEffect, ChangeEvent } from "react";
 import Keyboard, { KeyboardButtonTheme, KeyboardLayoutObject } from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import dynamic from 'next/dynamic';
 import { layoutButtonThemes } from "./layout-button-themes";
-import { Dot } from "../lib/models";
+import { Dot, Option, TypePainterFileData } from "../lib/models";
 
+// Must use a dynamic import because of react-p5
 const Canvas = dynamic(
   () => import('./canvas'),
   { ssr: false }
@@ -15,11 +16,10 @@ const Canvas = dynamic(
 type HomeComponentProps = {
 }
 
-interface Option {
-  name: string;
-  value: string;
-}
 
+/**
+ * the keyboard layouts
+ */
 const layouts: KeyboardLayoutObject = {
   'en': [
     'q w e r t y u i o p',
@@ -35,17 +35,12 @@ const layouts: KeyboardLayoutObject = {
   ],
 }
 
-// const validInputRegex = new RegExp("^[a-zA-Z0-9]+$");
+// the keyboard key filter
 const validInputKey = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ←→↓↑";
 
-interface TypeWriterFileData {
-  layoutName: string,
-  paletteName: string,
-  input: string,
-  dots: Dot[]
-}
 
 export default function HomeComponent(props: HomeComponentProps) {
+  // when a key is pressed, it is added to the input
   const [input, setInput] = useState("");
   const [layoutName, setLayoutName] = useState("fr");
   const [paletteName, setPaletteName] = useState("rainbow");
@@ -58,9 +53,13 @@ export default function HomeComponent(props: HomeComponentProps) {
   const [loadImage, setLoadImage] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [dots, setDots] = useState<Dot[]>([]);
+  // react-simple-keyboard needs a ref
   const keyboard = useRef<any>();
 
-
+  /**
+   * Add the key pressed to the input string
+   * @param key the key pressed
+   */
   const addKeyToInput = (key: string) => {
     setInput((prevInput) => {
       const newInput = prevInput + key;
@@ -68,15 +67,21 @@ export default function HomeComponent(props: HomeComponentProps) {
     });
   }
 
+  /**
+   * Handles the key event
+   * @param event Keydown event
+   */
   const handleKeyDown = (event: Event) => {
     if (document) {
       const cursorSizeInput = document.getElementById("cursorSizeInput");
       if (cursorSizeInput) {
+        // we don't want to filter the keys if the <input> for the cursor size is focused
         const cursorSizeInputElement = cursorSizeInput as HTMLInputElement;
         if (!(document.activeElement === cursorSizeInputElement)) {
           // @ts-ignore
           let key: string = event.key;
 
+          // replace the key if it is an arrow key
           if (key === "ArrowLeft") {
             key = "←";
           } else if (key === "ArrowRight") {
@@ -90,7 +95,6 @@ export default function HomeComponent(props: HomeComponentProps) {
           // reject special chars
           if (!validInputKey.includes(key)) {
             event.preventDefault();
-            return;
           } else {
             // normalize to lower case
             key = key.toLowerCase();
@@ -99,20 +103,19 @@ export default function HomeComponent(props: HomeComponentProps) {
               button.classList.add('hg-activeButton');
               setTimeout(() => { button.classList.remove('hg-activeButton') }, 100);
             }
+            addKeyToInput(key);
           }
-          addKeyToInput(key);
         }
       }
     }
   }
 
+  // trigger once after loading the DOM
   useEffect(() => {
     if (document) {
       document.addEventListener('keydown', handleKeyDown);
     }
   }, []);
-
-  // LAYOUTNAME SELECT
 
   // build the layout options to display
   const layoutOptions: Option[] = [];
@@ -124,7 +127,7 @@ export default function HomeComponent(props: HomeComponentProps) {
     layoutOptions.push(option);
   }
 
-  // PALETTENAME SELECT
+  // the palette options
   const paletteOptions: Option[] = [
     {
       name: "rainbow",
@@ -136,6 +139,10 @@ export default function HomeComponent(props: HomeComponentProps) {
     }
   ]
 
+  /**
+   * Update the layout name and the button theme
+   * @param layoutName the layout name
+   */
   const updateLayout = (layoutName: string) => {
     setLayoutName(layoutName);
     if (layoutName in layoutButtonThemes && paletteName in layoutButtonThemes[layoutName]) {
@@ -143,17 +150,27 @@ export default function HomeComponent(props: HomeComponentProps) {
     }
   }
 
-  const updatePalette = (name: string) => {
-    setPaletteName(name);
-    if (layoutName in layoutButtonThemes && name in layoutButtonThemes[layoutName]) {
-      setButtonTheme(layoutButtonThemes[layoutName][name]);
+  /**
+   * Update the palette name and the button theme
+   * @param paletteName 
+   */
+  const updatePalette = (paletteName: string) => {
+    setPaletteName(paletteName);
+    if (layoutName in layoutButtonThemes && paletteName in layoutButtonThemes[layoutName]) {
+      setButtonTheme(layoutButtonThemes[layoutName][paletteName]);
     }
   }
-  // CANVASSIZE SELECT
+
+  // the canvas size options
   const canvasSizeOptions: Option[] = [
     { name: "600x400", value: "600x400" },
     { name: "500x300", value: "500x300" },
   ]
+
+  /**
+   * Update the canvas size
+   * @param size the size (foramt WxH)
+   */
   const updateCanvasSize = (size: string) => {
     setCanvasSize(size);
     const [width, height] = size.split("x").map(n => Number(n));
@@ -162,21 +179,30 @@ export default function HomeComponent(props: HomeComponentProps) {
   }
 
 
-  // CURSOR SIZE INPUT
+  /**
+   * Update the cursor size
+   * @param value the cursor size value
+   */
   const onCursorInputChange = (value: string) => {
     const valueNumber = Number(value);
     setCursorSize(valueNumber);
   }
 
-  // KEYBOARD
-
+  /**
+   * Update the input when a key is pressed on the virtual keyboard
+   * @param value the key pressed
+   */
   const onKeyboardKeyPress = (value: string) => {
     addKeyToInput(value);
   }
 
+  /**
+   * Saves the canvas as a png file
+   */
   const saveImage = () => {
     if (document) {
       setHideCursor(true);
+      // we use setTimeout so that the cursor is hidden before saving the image
       setTimeout(() => {
         const canvases = document.getElementsByTagName("canvas");
         if (canvases.length > 0) {
@@ -193,27 +219,39 @@ export default function HomeComponent(props: HomeComponentProps) {
     }
   }
 
-  const saveInput = () => {
-    const data: TypeWriterFileData = {
+  /**
+   * Saves the type painter data into a json file to download
+   */
+  const saveTypePainterData = () => {
+    // build the data
+    const data: TypePainterFileData = {
       layoutName: layoutName,
       paletteName: paletteName,
       input: input,
       dots: dots
     };
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    // build the link
     const a = document.createElement('a');
     a.download = 'type-writer-input.json';
     a.href = URL.createObjectURL(blob);
+    // trigger the link
     a.click();
   }
 
-  const loadInput = async (e: ChangeEvent<HTMLInputElement>) => {
+  /**
+   * Load the type painter data
+   * @param e the ChangeEvent used to retrieve the file
+   */
+  const loadTypePainterData = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
+      // get the file
       const file: File = files[0];
+      // parse the file into a TypePainterFileData interface
       const content: string = await file.text();
-      const data: TypeWriterFileData = JSON.parse(content);
-      console.log(data);
+      const data: TypePainterFileData = JSON.parse(content);
+      // update the states
       updateLayout(data.layoutName);
       updatePalette(data.paletteName);
       setInput(data.input);
@@ -222,10 +260,16 @@ export default function HomeComponent(props: HomeComponentProps) {
     }
   }
 
+  /**
+   * Callback called by the canvas when the image has been loaded
+   */
   const onImageLoaded = () => {
     setLoadImage(false);
   }
 
+  /**
+   * Clear the input and trigger the canvas to also clear his data
+   */
   const clear = () => {
     setInput("");
     setClearing(true);
@@ -268,13 +312,13 @@ export default function HomeComponent(props: HomeComponentProps) {
           <button className="btn btn-primary" onClick={() => saveImage()}>Save Image</button>
         </div>
         <div className="form-control w-full max-w-xs tooltip" data-tip="Save the input on your device as a json file">
-          <button className="btn btn-secondary" onClick={() => saveInput()}>Save Input</button>
+          <button className="btn btn-secondary" onClick={() => saveTypePainterData()}>Save Input</button>
         </div>
         <div className="form-control w-full max-w-xs tooltip" data-tip="Load a json file from you device to use as canvas base">
           <label className="label">
             <span className="label-text">Load Input</span>
           </label>
-          <input className="file-input file-input-bordered file-input-info" type="file" accept="application/json" onChange={loadInput}></input>
+          <input className="file-input file-input-bordered file-input-info" type="file" accept="application/json" onChange={loadTypePainterData}></input>
         </div>
         <div className="form-control w-full max-w-xs tooltip" data-tip="Clear the input and the canvas">
           <button className="btn btn-error" onClick={() => clear()} >Clear</button>

@@ -6,6 +6,10 @@
   @apply brightness-75;
 }
 
+a {
+  @apply underline text-primary;
+}
+
 /* RAINBOW */
 
 .simple-keyboard.hg-layout-default .hg-button.hg-rainbow-red {

@@ -1,14 +1,16 @@
 import { KeyboardButtonTheme } from "react-simple-keyboard";
 
-
+// LayoutButtonThemes interface to store button themes by keyboard layout name and by palette
 export interface LayoutButtonThemes {
   [layout: string]: ButtomThemes;
 }
 
+// ButtomThemes to store button themes by palette
 export interface ButtomThemes {
   [palette: string]: KeyboardButtonTheme[];
 }
 
+// the object that stores the button classes
 export const layoutButtonThemes: LayoutButtonThemes = {
   'en': {
     'rainbow': [

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import HomeComponent from './components/home-component'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
           <p>This is a toy project, made after seeing a post on Facebook about a typewriter that was modified to paint instead of writing letters.</p>
           <p>This website and the author do not have any affiliation with the Facebook post or the original typewriter.</p>
           <p>The keyboard events are filtered to draw on the canvas, the accepted keys are only the letters (no special character) and the arrow keys.</p>
+          <p>The source code of this website can be found <Link href={"https://github.com/HUANGManutea/type-painter"}>here</Link>.</p>
         </div>
       </div>
     </main>

@@ -9,3 +9,10 @@ Layouts:
 Palettes:
 - rainbow
 - cool-warm (pastel)
+
+## Tech stack
+- Next.js
+- TailwindCSS
+- daisyui
+- react-simple-keyboard
+- react-p5
