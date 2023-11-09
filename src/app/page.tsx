@@ -7,6 +7,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col p-5 md:p-20">
       <div className='flex flex-col'>
         <h1>Type Painter</h1>
+        <h2>A chromatic typewriter with a canvas inspired by Tyree Callahan</h2>
       </div>
       <HomeComponent></HomeComponent>
       <div className='flex flex-col gap-5'>
