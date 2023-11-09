@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Type painter',
-  description: 'A typewriter with a canvas',
+  title: 'Type Painter',
+  description: 'A chromatic typewriter with a canvas inspired by Tyree Callahan',
 }
 
 export default function RootLayout({
