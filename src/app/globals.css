@@ -17,6 +17,9 @@ h1 {
 h2 {
   @apply text-xl;
 }
+.label {
+  @apply p-0 md:pb-1;
+}
 
 /* RAINBOW */
 

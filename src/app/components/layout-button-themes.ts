@@ -1,4 +1,4 @@
-import { KeyboardButtonTheme } from "react-simple-keyboard";
+import { KeyboardButtonTheme, KeyboardLayoutObject } from "react-simple-keyboard";
 import { InlineLayout } from "../lib/models";
 
 // LayoutButtonThemes interface to store button themes by keyboard layout name and by palette
@@ -10,6 +10,28 @@ export interface LayoutButtonThemes {
 export interface ButtonThemes {
   [palette: string]: KeyboardButtonTheme[];
 }
+
+
+/**
+ * the keyboard layouts
+ */
+export const layouts: KeyboardLayoutObject = {
+  'en': [
+    'q w e r t y u i o p',
+    'a s d f g h j k l',
+    'z x c v b n m',
+    '← ↓ ↑ →'
+  ],
+  'fr': [
+    'a z e r t y u i o p',
+    'q s d f g h j k l m',
+    'w x c v b n',
+    '← ↓ ↑ →'
+  ],
+}
+
+// the keyboard key filter
+export const validInputKey = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ←→↓↑";
 
 // the keyboard layouts in inline form
 export const inlineLayouts: InlineLayout = {

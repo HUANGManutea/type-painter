@@ -4,19 +4,19 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-20">
+    <main className="flex min-h-screen flex-col p-5 md:p-20">
       <div className='flex flex-col'>
         <h1>Type Painter</h1>
       </div>
       <HomeComponent></HomeComponent>
       <div className='flex flex-col gap-5'>
-        <div className='flex flex-col'>
+        <div className='flex flex-col gap-2'>
           <h2>How to:</h2>
           <p>(Optional) Select the keyboard layout</p>
           <p>(Optional) Select the color palette</p>
           <p>Type with your keyboard or use the virtual keyboard to draw on the canvas.</p>
         </div>
-        <div className='flex flex-col'>
+        <div className='flex flex-col gap-2'>
           <h2>Informations:</h2>
           <p>This is a toy project, made after seeing a post on Facebook about a typewriter that was modified to paint instead of writing letters. (<Link href={"https://tyreecallahan.blogspot.com/2011/12/introducing-chromatic-typewriter-2012.html?m=1"}>original blogpost</Link>, artist: Tyree Callahan)</p>
           <p>This website and the author do not have any affiliation with the Facebook post or the original typewriter.</p>
