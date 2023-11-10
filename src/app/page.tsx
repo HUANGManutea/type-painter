@@ -25,6 +25,8 @@ export default function Home() {
           <p>This website and the author do not have any affiliation with the Facebook post, the blogpost, or the original typewriter.</p>
           <p>The keyboard events are filtered to draw on the canvas, the accepted keys are only the letters (no special character) and the arrow keys.</p>
           <p>In the original palette, I tried to reproduce the colors on the original typewriter, but as I have reduced the number of keys, it is not an exact match.</p>
+          <p>If you type too fast, the website may not register the associated key color, so there will be a missing square.</p>
+          <p>There is currently no undo/redo feature, I suggest you save the input frequently.</p>
            <Link className='flex flex-row' href={"https://github.com/HUANGManutea/type-painter"}><FontAwesomeIcon icon={faGithub} width={16} height={16} /> Github source code</Link>
         </div>
       </div>

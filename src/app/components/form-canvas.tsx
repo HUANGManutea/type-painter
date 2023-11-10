@@ -54,10 +54,6 @@ export default function FormCanvas(props: FormCanvasProps) {
       value: "rainbow"
     },
     {
-      name: "cool-warm",
-      value: "cool-warm"
-    },
-    {
       name: "original",
       value: "original"
     }

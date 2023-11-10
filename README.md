@@ -8,7 +8,7 @@ Layouts:
 
 Palettes:
 - rainbow
-- cool-warm (pastel)
+- original
 
 ## Tech stack
 - Next.js

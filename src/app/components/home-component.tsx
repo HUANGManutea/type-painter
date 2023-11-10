@@ -23,7 +23,7 @@ export default function HomeComponent(props: HomeComponentProps) {
   const [history, setHistory] = useState<Command[]>([]);
   const [layoutName, setLayoutName] = useState("en");
   const [paletteName, setPaletteName] = useState("original");
-  const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['fr']['original']);
+  const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['en']['original']);
   const [canvasSize, setCanvasSize] = useState("300x200");
   const [canvasWidth, setCanvasWidth] = useState(300);
   const [canvasHeight, setCanvasHeight] = useState(200);
@@ -43,10 +43,12 @@ export default function HomeComponent(props: HomeComponentProps) {
    * @param key the key pressed
    */
   const addKeyToHistory = (key: string) => {
-    setHistory([...history, {
-      type: "input",
-      data: key
-    }]);
+    setHistory((prevHistory) => {
+      return [...prevHistory, {
+        type: "input",
+        data: key
+      }];
+    });
     // setInput((prevInput) => {
     //   const newInput = prevInput + key;
     //   return newInput;
@@ -164,7 +166,9 @@ export default function HomeComponent(props: HomeComponentProps) {
         setClearing={setClearing}
         actions={actions}
         setActions={setActions}
-        opacity={opacity} />
+        opacity={opacity}
+        layoutName={layoutName}
+        paletteName={paletteName} />
       <div className="flex flex-col place-items-center w-full sm:w-2/5">
         <Keyboard
           keyboardRef={r => (keyboard.current = r)}

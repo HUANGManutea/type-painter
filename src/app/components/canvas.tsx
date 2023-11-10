@@ -3,6 +3,7 @@ import Sketch from "react-p5";
 import p5Types from "p5";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Command, Dot, DotColor, Action, Blur } from "../lib/models";
+import { getButtonColor } from "./layout-button-themes";
 
 type CanvasProps = {
   width: number, // width of the canvas in pixels
@@ -17,7 +18,9 @@ type CanvasProps = {
   setClearing: (value: boolean) => void, // callback to signal the parent that the canvas has been cleared
   actions: Action[],
   setActions: (value: Action[]) => void,
-  opacity: number, // dot opacity
+  opacity: number, // dot opacity,
+  layoutName: string,
+  paletteName: string
 }
 
 // these variables must be outside of the component, don't know why react-p5 does not update the values when it is inside the component
@@ -134,23 +137,17 @@ export default function Canvas(props: CanvasProps) {
    * @returns the color string
    */
   const getDivColor = (key: string) => {
-    if (document) {
-      let button = document.querySelector(`[data-skbtn="${key}"]`);
-      if (button) {
-        // get the background rolor, returned as rgb() string
-        const bgColor = getComputedStyle(button).backgroundColor;
-        const matchedColors = bgColor.match(/\d+/g);
-        if (matchedColors && matchedColors.length === 3) {
-          // convert to rgba() string using opacity
-          const computedOpacity = props.opacity / 100;
-          return {
-            r: Number(matchedColors[0]),
-            g: Number(matchedColors[1]),
-            b: Number(matchedColors[2]),
-            a: computedOpacity,
-          } as DotColor;
-        }
-      }
+    const bgColor = getButtonColor(props.layoutName, props.paletteName, key);
+    const matchedColors = bgColor.match(/\d+/g);
+    if (matchedColors && matchedColors.length === 3) {
+      // convert to rgba() string using opacity
+      const computedOpacity = props.opacity / 100;
+      return {
+        r: Number(matchedColors[0]),
+        g: Number(matchedColors[1]),
+        b: Number(matchedColors[2]),
+        a: computedOpacity,
+      } as DotColor;
     }
     return null;
   }
@@ -194,8 +191,6 @@ export default function Canvas(props: CanvasProps) {
    * @param action the blur action
    */
   const blurCanvas = (p5: p5Types, action: Blur) => {
-    console.log("blurring");
-    // p5.filter(p5.BLUR, radius);
     p5.filter(p5.BLUR, action.radius);
   }
 
