@@ -6,7 +6,14 @@ export interface Dot {
   y: number,
   width: number,
   height: number,
-  color: string
+  color: DotColor
+}
+
+export interface DotColor {
+  r: number,
+  g: number,
+  b: number,
+  a: number
 }
 
 /**

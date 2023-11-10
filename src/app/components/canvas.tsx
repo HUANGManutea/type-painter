@@ -2,7 +2,7 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Dot } from "../lib/models";
+import { Dot, DotColor } from "../lib/models";
 
 type CanvasProps = {
   width: number, // width of the canvas in pixels
@@ -26,7 +26,7 @@ let cursorX = 0;
 // cursor Y coordinate
 let cursorY = 0;
 // color of the current dot
-let dotColor = '';
+let dotColor: DotColor | null = null;
 export default function Canvas(props: CanvasProps) {
   const [p5, setP5] = useState<p5Types>();
 
@@ -81,16 +81,18 @@ export default function Canvas(props: CanvasProps) {
         moveCursor(key, props.cursorIncrement);
       } else {
         dotColor = getDivColor(key);
-        props.setDots([
-          ...props.dots,
-          {
-            x: cursorX,
-            y: cursorY,
-            width: props.cursorSize,
-            height: props.cursorSize,
-            color: dotColor
-          }
-        ])
+        if (dotColor) {
+          props.setDots([
+            ...props.dots,
+            {
+              x: cursorX,
+              y: cursorY,
+              width: props.cursorSize,
+              height: props.cursorSize,
+              color: dotColor
+            }
+          ]);
+        }
         moveCursor("→", props.cursorSize);
       }
     }
@@ -120,12 +122,16 @@ export default function Canvas(props: CanvasProps) {
         if (matchedColors && matchedColors.length === 3) {
           // convert to rgba() string using opacity
           const computedOpacity = props.opacity / 100;
-          const rgbaColor = `rgba(${matchedColors[0]}, ${matchedColors[1]}, ${matchedColors[2]}, ${computedOpacity})`;
-          return rgbaColor;
+          return {
+            r: Number(matchedColors[0]),
+            g: Number(matchedColors[1]),
+            b: Number(matchedColors[2]),
+            a: computedOpacity,
+            } as DotColor;
         }
       }
     }
-    return '';
+    return null;
   }
 
   /**
@@ -157,8 +163,40 @@ export default function Canvas(props: CanvasProps) {
    * @param dot the Dot to draw
    */
   const drawDot = (p5: p5Types, dot: Dot) => {
-    p5.fill(dot.color);
-    p5.rect(dot.x, dot.y, dot.width, dot.height);
+    const originalColor = `rgba(${dot.color.r}, ${dot.color.g}, ${dot.color.b}, ${dot.color.a})`;
+    if (dot.color.a === 1) {
+      // if it's a hard color, just draw the rect
+      p5.fill(originalColor);
+      p5.rect(dot.x, dot.y, dot.width, dot.height);
+    } else {
+      // if the alpha channel is not 1, we draw a rect that has a "fill gradient"
+      // for that we will draw multiple rects, lerping the color between the original and the transparent color
+
+      // distance from the center of the rectangle to one of its corners
+      const maxRadius = Math.sqrt(dot.width * dot.width + dot.height * dot.height) / 2;
+      // we will modify these values in the loop to reduce the size of the rectangles
+      let x = dot.x;
+      let y = dot.y;
+      let w = dot.width;
+      let h = dot.height;
+
+      for(let r=0; r < maxRadius; r++) {
+        // remap r between 0-1 for lerp
+        const inter = p5.map(r, 0, maxRadius, 0, 1);
+        // lerp between original color and transparent
+        const gradientColor = p5.lerpColor(p5.color(originalColor), p5.color(0,0), inter);
+        // draw the rect
+        p5.fill(gradientColor);
+        p5.noStroke();
+        p5.rect(x, y, w, h);
+
+        // Shrink the rectangle dimensions
+        x += 1;
+        y += 1;
+        w -= 2;
+        h -= 2;
+      }
+    }
   }
 
   /**

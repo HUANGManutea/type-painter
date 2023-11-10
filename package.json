@@ -15,7 +15,6 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "next": "14.0.1",
     "p5": "^1.8.0",
-    "p5.fillgradient": "^0.1.1",
     "react": "^18",
     "react-dom": "^18",
     "react-p5": "^1.4.1",
