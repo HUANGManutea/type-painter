@@ -2,21 +2,21 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Dot, DotColor } from "../lib/models";
+import { Command, Dot, DotColor, Action, Blur } from "../lib/models";
 
 type CanvasProps = {
   width: number, // width of the canvas in pixels
   height: number, // height of the canvas in pixels
   cursorSize: number, // cursor size in pixels
   cursorIncrement: number, // cursor increment in pixels
-  input: string, // the input string
+  history: Command[], // the input string
   hideCursor: boolean, // hide/show cursor
   loadImage: boolean, // true if we have to load an image
   onImageLoaded: () => void, // callback to signal parent that the image load has been done
   clearing: boolean, // true if we have to clear the canvas
   setClearing: (value: boolean) => void, // callback to signal the parent that the canvas has been cleared
-  dots: Dot[], // the dots to draw, also serves as bitmap-like array
-  setDots: (dots: Dot[]) => void, // callback to update the bitmap
+  actions: Action[],
+  setActions: (value: Action[]) => void,
   opacity: number, // dot opacity
 }
 
@@ -36,16 +36,16 @@ export default function Canvas(props: CanvasProps) {
       clearCanvas();
     }
     else {
-      handleInput(props.input);
+      handleHistory(props.history);
     }
-  }, [props.input, props.clearing]);
+  }, [props.history, props.clearing]);
 
   // trigger when we have to load an image
   useEffect(() => {
     if (props.loadImage) {
-      handleLoadImage(props.dots, props.input);
+      handleLoadImage(props.actions, props.history);
     }
-  }, [props.loadImage, props.dots]);
+  }, [props.loadImage, props.actions]);
 
   useEffect(() => {
     p5?.resizeCanvas(props.width, props.height);
@@ -53,47 +53,68 @@ export default function Canvas(props: CanvasProps) {
 
   /**
    * Loads the dots and move the cursor
-   * @param dots the dots to load
-   * @param input the input to load
+   * @param actions the actions to load
+   * @param history the history to load
    */
-  const handleLoadImage = (dots: Dot[], input: string) => {
+  const handleLoadImage = (actions: Action[], history: Command[]) => {
     resetCursor();
-    props.setDots(dots);
-    for (let char of input.split("")) {
-      // we read the input, if we have an arrow key, we move the cursor, else we move the cursor to the left
-      if (char === "←" || char === "↑" || char === "→" || char === "↓") {
-        moveCursor(char, props.cursorSize);
-      } else {
-        moveCursor("→", props.cursorSize);
+    props.setActions(actions);
+    for (let command of history) {
+      if (command.type === "input") {
+        const key = command.data!;
+        // we read the input, if we have an arrow key, we move the cursor, else we move the cursor to the left
+        if (key === "←" || key === "↑" || key === "→" || key === "↓") {
+          moveCursor(key, props.cursorSize);
+        } else {
+          moveCursor("→", props.cursorSize);
+        }
       }
     }
     props.onImageLoaded();
   }
 
   /**
-   * Create a dot or move the cursor depending on the last char of the input
-   * @param input the input
+   * Create a dot or move the cursor depending on the last command of the history
+   * @param history the history
    */
-  const handleInput = (input: string) => {
-    if (input.length > 0) {
-      const key = input[input.length - 1];
-      if (key === "←" || key === "↑" || key === "→" || key === "↓") {
-        moveCursor(key, props.cursorIncrement);
+  const handleHistory = (history: Command[]) => {
+    if (history.length > 0) {
+      const command = history[history.length - 1];
+      if (command.type === "input") {
+        const key = command.data!;
+        if (key === "←" || key === "↑" || key === "→" || key === "↓") {
+          moveCursor(key, props.cursorIncrement);
+        } else {
+          dotColor = getDivColor(key);
+          if (dotColor) {
+            props.setActions([
+              ...props.actions,
+              {
+                type: "dot",
+                data: {
+                  x: cursorX,
+                  y: cursorY,
+                  width: props.cursorSize,
+                  height: props.cursorSize,
+                  color: dotColor
+                }
+              }
+            ]);
+          }
+          moveCursor("→", props.cursorSize);
+        }
       } else {
-        dotColor = getDivColor(key);
-        if (dotColor) {
-          props.setDots([
-            ...props.dots,
+        if (command.type === "blur") {
+          props.setActions([
+            ...props.actions,
             {
-              x: cursorX,
-              y: cursorY,
-              width: props.cursorSize,
-              height: props.cursorSize,
-              color: dotColor
+              type: "blur",
+              data: {
+                radius: Number(command.data!)
+              }
             }
           ]);
         }
-        moveCursor("→", props.cursorSize);
       }
     }
   }
@@ -103,7 +124,7 @@ export default function Canvas(props: CanvasProps) {
    */
   const clearCanvas = () => {
     resetCursor();
-    props.setDots([]);
+    props.setActions([]);
     props.setClearing(false);
   }
 
@@ -127,7 +148,7 @@ export default function Canvas(props: CanvasProps) {
             g: Number(matchedColors[1]),
             b: Number(matchedColors[2]),
             a: computedOpacity,
-            } as DotColor;
+          } as DotColor;
         }
       }
     }
@@ -165,6 +186,17 @@ export default function Canvas(props: CanvasProps) {
   const drawDot = (p5: p5Types, dot: Dot) => {
     p5.fill(`rgba(${dot.color.r}, ${dot.color.g}, ${dot.color.b}, ${dot.color.a})`);
     p5.rect(dot.x, dot.y, dot.width, dot.height);
+  }
+
+  /**
+   * Blurs the canvas depending on the blur action
+   * @param p5 the p5 object
+   * @param action the blur action
+   */
+  const blurCanvas = (p5: p5Types, action: Blur) => {
+    console.log("blurring");
+    // p5.filter(p5.BLUR, radius);
+    p5.filter(p5.BLUR, action.radius);
   }
 
   /**
@@ -219,9 +251,13 @@ export default function Canvas(props: CanvasProps) {
    */
   const draw = (p5: p5Types) => {
     p5.background(255);
-    // first draw the dots
-    for (let dot of props.dots) {
-      drawDot(p5, dot);
+    // first do the actions
+    for (let action of props.actions) {
+      if (action.type === "dot") {
+        drawDot(p5, action.data as Dot);
+      } else if (action.type === "blur") {
+        blurCanvas(p5, action.data as Blur);
+      }
     }
     // then draw the cursor if we have to show it
     if (!props.hideCursor) {

@@ -16,6 +16,15 @@ export interface DotColor {
   a: number
 }
 
+export interface Blur {
+  radius: number
+}
+
+export interface Action {
+  type: string,
+  data: Dot | Blur
+}
+
 /**
  * Option interface used for various selects
  */
@@ -30,8 +39,8 @@ export interface Option {
 export interface TypePainterFileData {
   layoutName: string, // the name of the keyboard layout
   paletteName: string, // the name of the color palette
-  input: string, // the input string
-  dots: Dot[] // the dots
+  history: Command[], // the history
+  actions: Action[] // the actions
 }
 
 /**
@@ -39,4 +48,12 @@ export interface TypePainterFileData {
  */
 export interface InlineLayout {
   [key: string]: string
+}
+
+/**
+ * The command storing action info for memento-like pattern
+ */
+export interface Command {
+  type: string,
+  data?: string
 }

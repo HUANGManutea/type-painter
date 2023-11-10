@@ -5,7 +5,7 @@ import Keyboard, { KeyboardButtonTheme, KeyboardLayoutObject } from 'react-simpl
 import 'react-simple-keyboard/build/css/index.css';
 import dynamic from 'next/dynamic';
 import { layoutButtonThemes, layouts, validInputKey } from "./layout-button-themes";
-import { Dot, Option, TypePainterFileData } from "../lib/models";
+import { Action, Command, Dot, Option, TypePainterFileData } from "../lib/models";
 import FormCanvas from "./form-canvas";
 
 // Must use a dynamic import because of react-p5
@@ -20,7 +20,7 @@ type HomeComponentProps = {
 
 export default function HomeComponent(props: HomeComponentProps) {
   // when a key is pressed, it is added to the input
-  const [input, setInput] = useState("");
+  const [history, setHistory] = useState<Command[]>([]);
   const [layoutName, setLayoutName] = useState("en");
   const [paletteName, setPaletteName] = useState("original");
   const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['fr']['original']);
@@ -33,19 +33,24 @@ export default function HomeComponent(props: HomeComponentProps) {
   const [hideCursor, setHideCursor] = useState(false);
   const [loadImage, setLoadImage] = useState(false);
   const [clearing, setClearing] = useState(false);
-  const [dots, setDots] = useState<Dot[]>([]);
+  const [blurRadius, setBlurRadius] = useState(5);
+  const [actions, setActions] = useState<Action[]>([]);
   // react-simple-keyboard needs a ref
   const keyboard = useRef<any>();
 
   /**
-   * Add the key pressed to the input string
+   * Add the key pressed to the history
    * @param key the key pressed
    */
-  const addKeyToInput = (key: string) => {
-    setInput((prevInput) => {
-      const newInput = prevInput + key;
-      return newInput;
-    });
+  const addKeyToHistory = (key: string) => {
+    setHistory([...history, {
+      type: "input",
+      data: key
+    }]);
+    // setInput((prevInput) => {
+    //   const newInput = prevInput + key;
+    //   return newInput;
+    // });
   }
 
   /**
@@ -83,7 +88,7 @@ export default function HomeComponent(props: HomeComponentProps) {
             button.classList.add('hg-activeButton');
             setTimeout(() => { button.classList.remove('hg-activeButton') }, 100);
           }
-          addKeyToInput(key);
+          addKeyToHistory(key);
         }
       }
     }
@@ -101,7 +106,7 @@ export default function HomeComponent(props: HomeComponentProps) {
    * @param value the key pressed
    */
   const onKeyboardKeyPress = (value: string) => {
-    addKeyToInput(value);
+    addKeyToHistory(value);
   }
 
   /**
@@ -114,8 +119,8 @@ export default function HomeComponent(props: HomeComponentProps) {
   return (
     <div className="flex flex-col w-full h-full items-center gap-5">
       <FormCanvas
-      input={input}
-      setInput={setInput}
+      history={history}
+      setHistory={setHistory}
       layoutName={layoutName}
       setLayoutName={setLayoutName}
       paletteName={paletteName}
@@ -138,10 +143,12 @@ export default function HomeComponent(props: HomeComponentProps) {
       setHideCursor={setHideCursor}
       loadImage={loadImage}
       setLoadImage={setLoadImage}
+      blurRadius={blurRadius}
+      setBlurRadius={setBlurRadius}
       clearing={clearing}
       setClearing={setClearing}
-      dots={dots}
-      setDots={setDots}
+      actions={actions}
+      setActions={setActions}
       
       ></FormCanvas>
       <Canvas
@@ -149,14 +156,14 @@ export default function HomeComponent(props: HomeComponentProps) {
         height={canvasHeight}
         cursorSize={cursorSize}
         cursorIncrement={cursorIncrement}
-        input={input}
+        history={history}
         hideCursor={hideCursor}
         loadImage={loadImage}
         onImageLoaded={onImageLoaded}
         clearing={clearing}
         setClearing={setClearing}
-        dots={dots}
-        setDots={setDots}
+        actions={actions}
+        setActions={setActions}
         opacity={opacity} />
       <div className="flex flex-col place-items-center w-full sm:w-2/5">
         <Keyboard

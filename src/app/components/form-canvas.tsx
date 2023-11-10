@@ -2,7 +2,7 @@
 
 import input from "postcss/lib/input";
 import { ChangeEvent } from "react";
-import { TypePainterFileData, Option, Dot } from "../lib/models";
+import { TypePainterFileData, Option, Dot, Command, Action } from "../lib/models";
 import { layoutButtonThemes, layouts } from "./layout-button-themes";
 import { KeyboardButtonTheme } from "react-simple-keyboard";
 import dynamic from "next/dynamic";
@@ -11,8 +11,8 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
 });
 
 type FormCanvasProps = {
-  input: string,
-  setInput: (value: string) => void,
+  history: Command[],
+  setHistory: (value: Command[]) => void,
   layoutName: string,
   setLayoutName: (value: string) => void,
   paletteName: string,
@@ -35,10 +35,12 @@ type FormCanvasProps = {
   setHideCursor: (value: boolean) => void,
   loadImage: boolean,
   setLoadImage: (value: boolean) => void,
+  blurRadius: number,
+  setBlurRadius: (value: number) => void,
   clearing: boolean,
   setClearing: (value: boolean) => void,
-  dots: Dot[],
-  setDots: (value: Dot[]) => void
+  actions: Action[],
+  setActions: (value: Action[]) => void,
 }
 
 
@@ -138,6 +140,14 @@ export default function FormCanvas(props: FormCanvasProps) {
   }
 
   /**
+   * Update the blur radius
+   * @param value the blur radius value
+   */
+  const onBlurInputChange = (value: string) => {
+    props.setBlurRadius(Number(value));
+  }
+
+  /**
    * Saves the canvas as a png file
    */
   const saveImage = () => {
@@ -168,8 +178,8 @@ export default function FormCanvas(props: FormCanvasProps) {
     const data: TypePainterFileData = {
       layoutName: props.layoutName,
       paletteName: props.paletteName,
-      input: props.input,
-      dots: props.dots
+      history: props.history,
+      actions: props.actions
     };
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     // build the link
@@ -195,8 +205,8 @@ export default function FormCanvas(props: FormCanvasProps) {
       // update the states
       updateLayout(data.layoutName);
       updatePalette(data.paletteName);
-      props.setInput(data.input);
-      props.setDots(data.dots);
+      props.setHistory(data.history);
+      props.setActions(data.actions);
       props.setLoadImage(true);
     }
   }
@@ -205,8 +215,18 @@ export default function FormCanvas(props: FormCanvasProps) {
    * Clear the input and trigger the canvas to also clear his data
    */
   const clear = () => {
-    props.setInput("");
+    props.setHistory([]);
     props.setClearing(true);
+  }
+
+  /**
+   * 
+   */
+  const blur = () => {
+    props.setHistory([...props.history, {
+      type: "blur",
+      data: `${props.blurRadius}`
+    }]);
   }
 
   return (
@@ -245,19 +265,19 @@ export default function FormCanvas(props: FormCanvasProps) {
                 <label className="label">
                   <span className="label-text">Dot size</span>
                 </label>
-                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
+                <input className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
               </div>
               <div className="form-control w-full max-w-xs tooltip" data-tip="By how many pixels will the cursor move">
                 <label className="label">
                   <span className="label-text">Cursor increment</span>
                 </label>
-                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorIncrement} onChange={(e) => onCursorIncrementInputChange(e.target.value)}></input>
+                <input className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorIncrement} onChange={(e) => onCursorIncrementInputChange(e.target.value)}></input>
               </div>
               <div className="form-control w-full max-w-xs tooltip" data-tip="Dot opacity (min: 1, max: 100)">
                 <label className="label">
                   <span className="label-text">Dot Opacity</span>
                 </label>
-                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
+                <input className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
               </div>
             </div>
             <div className="flex flex-row items-end gap-5">
@@ -272,6 +292,15 @@ export default function FormCanvas(props: FormCanvasProps) {
                   <span className="label-text">Load Input</span>
                 </label>
                 <input className="file-input file-input-bordered file-input-info w-full" type="file" accept="application/json" onChange={loadTypePainterData}></input>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="Blurs the Canvas more or less depending on the value">
+                <label className="label">
+                  <span className="label-text">Blur radius</span>
+                </label>
+                <div className="join">
+                  <input className="input input-bordered join-item" type="number" min="1" max="100" value={props.blurRadius} onChange={(e) => onBlurInputChange(e.target.value)}></input>
+                  <button className="btn btn-accent join-item" onClick={() => blur()} >Blur</button>
+                </div>
               </div>
               <div className="form-control max-w-xs tooltip" data-tip="Clear the input and the canvas">
                 <button className="btn btn-error" onClick={() => clear()} >Clear</button>
@@ -311,13 +340,13 @@ export default function FormCanvas(props: FormCanvasProps) {
               <label className="label">
                 <span className="label-text">Dot size</span>
               </label>
-              <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
+              <input className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
             </div>
             <div className="form-control tooltip w-full col-span-2" data-tip="Dot opacity (min: 1, max: 100)">
               <label className="label">
                 <span className="label-text">Dot Opacity</span>
               </label>
-              <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
+              <input className="input input-bordered w-full" type="number" min="1" max="100" value={props.opacity} onChange={(e) => onOpacityInputChange(e.target.value)}></input>
             </div>
             <div className="form-control w-full max-w-xs tooltip" data-tip="Save the image on your device">
               <button className="btn btn-primary w-full" onClick={() => saveImage()}>Save Image</button>
@@ -330,6 +359,12 @@ export default function FormCanvas(props: FormCanvasProps) {
                 <span className="label-text">Load Input</span>
               </label>
               <input className="file-input file-input-bordered file-input-info w-full" type="file" accept="application/json" onChange={loadTypePainterData}></input>
+            </div>
+            <div className="form-control w-full max-w-xs tooltip" data-tip="Blurs the Canvas more or less depending on the value">
+              <div className="join">
+                <input className="input input-bordered join-item" type="number" min="1" max="100" value={props.blurRadius} onChange={(e) => onBlurInputChange(e.target.value)}></input>
+                <button className="btn btn-accent join-item" onClick={() => blur()} >Blur</button>
+              </div>
             </div>
             <div className="form-control w-full max-w-xs tooltip" data-tip="Clear the input and the canvas">
               <button className="btn btn-error w-full" onClick={() => clear()} >Clear</button>
