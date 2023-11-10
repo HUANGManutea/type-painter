@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import HomeComponent from './components/home-component'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export default function Home() {
   return (
@@ -23,7 +25,7 @@ export default function Home() {
           <p>This website and the author do not have any affiliation with the Facebook post, the blogpost, or the original typewriter.</p>
           <p>The keyboard events are filtered to draw on the canvas, the accepted keys are only the letters (no special character) and the arrow keys.</p>
           <p>In the original palette, I tried to reproduce the colors on the original typewriter, but as I have reduced the number of keys, it is not an exact match.</p>
-          <p>The source code of this website can be found <Link href={"https://github.com/HUANGManutea/type-painter"}>here</Link>.</p>
+           <Link className='flex flex-row' href={"https://github.com/HUANGManutea/type-painter"}><FontAwesomeIcon icon={faGithub} width={16} height={16} /> Github source code</Link>
         </div>
       </div>
     </main>

@@ -28,6 +28,7 @@ export default function HomeComponent(props: HomeComponentProps) {
   const [canvasWidth, setCanvasWidth] = useState(300);
   const [canvasHeight, setCanvasHeight] = useState(200);
   const [cursorSize, setCursorSize] = useState(10);
+  const [cursorIncrement, setCursorIncrement] = useState(10);
   const [opacity, setOpacity] = useState(100);
   const [hideCursor, setHideCursor] = useState(false);
   const [loadImage, setLoadImage] = useState(false);
@@ -129,6 +130,8 @@ export default function HomeComponent(props: HomeComponentProps) {
       setCanvasHeight={setCanvasHeight}
       cursorSize={cursorSize}
       setCursorSize={setCursorSize}
+      cursorIncrement={cursorIncrement}
+      setCursorIncrement={setCursorIncrement}
       opacity={opacity}
       setOpacity={setOpacity}
       hideCursor={hideCursor}
@@ -145,6 +148,7 @@ export default function HomeComponent(props: HomeComponentProps) {
         width={canvasWidth}
         height={canvasHeight}
         cursorSize={cursorSize}
+        cursorIncrement={cursorIncrement}
         input={input}
         hideCursor={hideCursor}
         loadImage={loadImage}

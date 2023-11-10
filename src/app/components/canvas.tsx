@@ -8,6 +8,7 @@ type CanvasProps = {
   width: number, // width of the canvas in pixels
   height: number, // height of the canvas in pixels
   cursorSize: number, // cursor size in pixels
+  cursorIncrement: number, // cursor increment in pixels
   input: string, // the input string
   hideCursor: boolean, // hide/show cursor
   loadImage: boolean, // true if we have to load an image
@@ -61,9 +62,9 @@ export default function Canvas(props: CanvasProps) {
     for (let char of input.split("")) {
       // we read the input, if we have an arrow key, we move the cursor, else we move the cursor to the left
       if (char === "←" || char === "↑" || char === "→" || char === "↓") {
-        moveCursor(char);
+        moveCursor(char, props.cursorSize);
       } else {
-        moveCursor("→");
+        moveCursor("→", props.cursorSize);
       }
     }
     props.onImageLoaded();
@@ -77,7 +78,7 @@ export default function Canvas(props: CanvasProps) {
     if (input.length > 0) {
       const key = input[input.length - 1];
       if (key === "←" || key === "↑" || key === "→" || key === "↓") {
-        moveCursor(key);
+        moveCursor(key, props.cursorIncrement);
       } else {
         dotColor = getDivColor(key);
         props.setDots([
@@ -90,7 +91,7 @@ export default function Canvas(props: CanvasProps) {
             color: dotColor
           }
         ])
-        moveCursor("→");
+        moveCursor("→", props.cursorSize);
       }
     }
   }
@@ -171,36 +172,37 @@ export default function Canvas(props: CanvasProps) {
   /**
    * Changes the cursor coordinates depending on the direction
    * @param direction the arrow key direction
+   * @param increment by how much the cursor must move, in pixels
    */
-  const moveCursor = (direction: string) => {
+  const moveCursor = (direction: string, increment: number) => {
     if (direction === "→") {
-      if (cursorX + props.cursorSize < props.width) {
-        cursorX += props.cursorSize;
+      if (cursorX + increment < props.width) {
+        cursorX += increment;
       } else {
         // case out of bound x
         // move only if we can go to new line
-        if (cursorY + props.cursorSize < props.height) {
+        if (cursorY + increment < props.height) {
           cursorX = 0;
-          cursorY += props.cursorSize;
+          cursorY += increment;
         }
       }
     } else if (direction === "↑") {
-      if (cursorY - props.cursorSize >= 0) {
-        cursorY -= props.cursorSize;
+      if (cursorY - increment >= 0) {
+        cursorY -= increment;
       }
     } else if (direction === "←") {
-      if (cursorX - props.cursorSize >= 0) {
-        cursorX -= props.cursorSize;
+      if (cursorX - increment >= 0) {
+        cursorX -= increment;
       } else {
         // Move to the end of the previous line if possible
-        if (cursorY - props.cursorSize >= 0) {
-          cursorY -= props.cursorSize;
-          cursorX = props.width - props.cursorSize;
+        if (cursorY - increment >= 0) {
+          cursorY -= increment;
+          cursorX = props.width - increment;
         }
       }
     } else if (direction === "↓") {
-      if (cursorY + props.cursorSize < props.height) {
-        cursorY += props.cursorSize;
+      if (cursorY + increment < props.height) {
+        cursorY += increment;
       }
     }
   }

@@ -27,6 +27,8 @@ type FormCanvasProps = {
   setCanvasHeight: (value: number) => void,
   cursorSize: number,
   setCursorSize: (value: number) => void,
+  cursorIncrement: number,
+  setCursorIncrement: (value: number) => void,
   opacity: number,
   setOpacity: (value: number) => void,
   hideCursor: boolean,
@@ -116,8 +118,15 @@ export default function FormCanvas(props: FormCanvasProps) {
    * @param value the cursor size value
    */
   const onCursorInputChange = (value: string) => {
-    const valueNumber = Number(value);
-    props.setCursorSize(valueNumber);
+    props.setCursorSize(Number(value));
+  }
+
+  /**
+   * Update the cursor increment
+   * @param value the cursor increment value
+   */
+  const onCursorIncrementInputChange = (value: string) => {
+    props.setCursorIncrement(Number(value));
   }
 
   /**
@@ -125,8 +134,7 @@ export default function FormCanvas(props: FormCanvasProps) {
    * @param value the opacity value
    */
   const onOpacityInputChange = (value: string) => {
-    const valueNumber = Number(value);
-    props.setOpacity(valueNumber);
+    props.setOpacity(Number(value));
   }
 
   /**
@@ -238,6 +246,12 @@ export default function FormCanvas(props: FormCanvasProps) {
                   <span className="label-text">Dot size</span>
                 </label>
                 <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorSize} onChange={(e) => onCursorInputChange(e.target.value)}></input>
+              </div>
+              <div className="form-control w-full max-w-xs tooltip" data-tip="By how many pixels will the cursor move">
+                <label className="label">
+                  <span className="label-text">Cursor increment</span>
+                </label>
+                <input id="cursorSizeInput" className="input input-bordered w-full" type="number" min="1" max="100" value={props.cursorIncrement} onChange={(e) => onCursorIncrementInputChange(e.target.value)}></input>
               </div>
               <div className="form-control w-full max-w-xs tooltip" data-tip="Dot opacity (min: 1, max: 100)">
                 <label className="label">
