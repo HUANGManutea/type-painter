@@ -163,40 +163,8 @@ export default function Canvas(props: CanvasProps) {
    * @param dot the Dot to draw
    */
   const drawDot = (p5: p5Types, dot: Dot) => {
-    const originalColor = `rgba(${dot.color.r}, ${dot.color.g}, ${dot.color.b}, ${dot.color.a})`;
-    if (dot.color.a === 1) {
-      // if it's a hard color, just draw the rect
-      p5.fill(originalColor);
-      p5.rect(dot.x, dot.y, dot.width, dot.height);
-    } else {
-      // if the alpha channel is not 1, we draw a rect that has a "fill gradient"
-      // for that we will draw multiple rects, lerping the color between the original and the transparent color
-
-      // distance from the center of the rectangle to one of its corners
-      const maxRadius = Math.sqrt(dot.width * dot.width + dot.height * dot.height) / 2;
-      // we will modify these values in the loop to reduce the size of the rectangles
-      let x = dot.x;
-      let y = dot.y;
-      let w = dot.width;
-      let h = dot.height;
-
-      for(let r=0; r < maxRadius; r++) {
-        // remap r between 0-1 for lerp
-        const inter = p5.map(r, 0, maxRadius, 0, 1);
-        // lerp between original color and transparent
-        const gradientColor = p5.lerpColor(p5.color(originalColor), p5.color(0,0), inter);
-        // draw the rect
-        p5.fill(gradientColor);
-        p5.noStroke();
-        p5.rect(x, y, w, h);
-
-        // Shrink the rectangle dimensions
-        x += 1;
-        y += 1;
-        w -= 2;
-        h -= 2;
-      }
-    }
+    p5.fill(`rgba(${dot.color.r}, ${dot.color.g}, ${dot.color.b}, ${dot.color.a})`);
+    p5.rect(dot.x, dot.y, dot.width, dot.height);
   }
 
   /**
