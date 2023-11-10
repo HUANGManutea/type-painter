@@ -21,7 +21,7 @@ type HomeComponentProps = {
 export default function HomeComponent(props: HomeComponentProps) {
   // when a key is pressed, it is added to the input
   const [input, setInput] = useState("");
-  const [layoutName, setLayoutName] = useState("fr");
+  const [layoutName, setLayoutName] = useState("en");
   const [paletteName, setPaletteName] = useState("original");
   const [buttonTheme, setButtonTheme] = useState<KeyboardButtonTheme[]>(layoutButtonThemes['fr']['original']);
   const [canvasSize, setCanvasSize] = useState("300x200");
